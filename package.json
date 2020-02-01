@@ -1,7 +1,23 @@
 {
   "name": "pwa-task",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "author": "Dave Kalu",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "minify-html": "node ./internals/scripts/minify-html.js",
+    "copy-assets": "node ./internals/scripts/copy-assets.js",
+    "bundle": "microbundle --output dist --target browser --format cjs --no-sourcemap",
+    "bundle:watch": "microbundle watch --output dist --target browser --format cjs --sourcemap false",
+    "bundle:sw": "node ./internals/scripts/sw-build.js",
+    "build": "rm -rf dist; npm run bundle; npm run copy-assets; npm run bundle:sw; npm run minify-html",
+    "serve": "serve ./dist --listen 2048 --single",
+    "dev": "(npm run copy-assets & npm run bundle:sw & npm run bundle:watch & npm run serve)"
+  },
+  "devDependencies": {
+    "html-minifier": "^4.0.0",
+    "microbundle": "^0.11.0",
+    "serve": "^11.3.0",
+    "winston": "^3.2.1"
+  }
 }
